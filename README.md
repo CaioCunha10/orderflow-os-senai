@@ -9,17 +9,17 @@ abertura, execução e finalização.
 
 ## Funcionalidades (MVP)
 
-- Criar Ordem de Serviço
-- Listar Ordens de Serviço
-- Iniciar execução da OS (data/hora início)
-- Finalizar OS (data/hora fim + descrição técnica)
-- Controle de status (Aberta, Em andamento, Finalizada)
+* Criar Ordem de Serviço
+* Listar Ordens de Serviço
+* Iniciar execução da OS (data/hora início)
+* Finalizar OS (data/hora fim + descrição técnica)
+* Controle de status (Aberta, Em andamento, Finalizada)
 
 ## Tecnologias
 
-- Backend: Spring Boot
-- Banco de Dados: MySQL ou PostgreSQL
-- Frontend: A definir
+* Backend: Spring Boot
+* Banco de Dados: MySQL ou PostgreSQL
+* Frontend: A definir
 
 ## Padrões do Projeto
 
@@ -27,10 +27,10 @@ abertura, execução e finalização.
 
 Cada tarefa deve seguir o padrão:
 
-feature/#numero-nome-da-tarefa
+Tarefa-numero
 
 Exemplo:
-feature/#12-criar-endpoint-ordens
+Tarefa-12
 
 ---
 
@@ -41,8 +41,8 @@ Padrão obrigatório:
 numero - descrição da tarefa
 
 Exemplo:
-1 - criar endpoint ordens  
-12 - finalizar os  
+1 - criar endpoint ordens
+12 - finalizar os
 
 ---
 
@@ -53,3 +53,40 @@ Antes de iniciar qualquer tarefa:
 ```bash
 git checkout main
 git pull origin main
+```
+
+Criar a branch:
+
+```bash
+git checkout -b Tarefa-12
+```
+
+Após finalizar:
+
+```bash
+git add .
+git commit -m "12 - descrição da tarefa"
+git push origin Tarefa-12
+```
+
+---
+
+### Pull Request
+
+Após subir a branch:
+
+1. Acessar o repositório no GitHub
+2. Ir em "Pull Requests"
+3. Clicar em "New Pull Request"
+4. Base: main
+5. Compare: Tarefa-numero
+6. Criar o Pull Request
+
+Regras:
+
+* Não fazer push direto na main
+* Toda alteração deve ser via Pull Request
+* A main só será atualizada após aprovação
+* Sempre atualizar a main antes de iniciar uma nova tarefa
+
+---
