@@ -2,6 +2,7 @@ package com.ordem.servico.dominio.entidades;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+
 @Entity
 @Table(name = "ordem_de_servico")
 
