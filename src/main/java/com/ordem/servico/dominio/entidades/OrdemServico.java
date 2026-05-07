@@ -116,7 +116,7 @@ public class OrdemServico {
         return solicitante;
     }
 
-    public void setSolicicitante(Solicitante solicitante) {
+    public void setSolicitante(Solicitante solicitante) {
         this.solicitante = solicitante;
     }
 
@@ -141,12 +141,25 @@ public class OrdemServico {
             throw new IllegalStateException("A ordem de serviço só pode ser finalizada se estiver em andamento.");
         }
 
-        if (descricaoTecnica == null || descricaoTecnica.trim().isEmpty()) {
-            throw new IllegalArgumentException("A descrição técnica é obrigatória para finalizar a ordem de serviço.");
-        }
+        validarDescricaoTecnica(descricaoTecnica);
 
         this.descricaoTecnica = descricaoTecnica;
         this.dataFinalizacao = LocalDateTime.now();
         this.status = StatusOS.FINALIZADA;
+    }
+
+    private void validarDescricaoTecnica(String descricaoTecnica) {
+        if (descricaoTecnica == null || descricaoTecnica.trim().isEmpty()) {
+            throw new IllegalArgumentException("A descrição técnica é obrigatória para finalizar a ordem de serviço.");
+        }
+    }
+
+    public void iniciar() {
+        if (this.status != StatusOS.ABERTA) {
+            throw new IllegalStateException("A OS precisa estar ABERTA para iniciar");
+        }
+
+        this.status = StatusOS.EM_ANDAMENTO;
+        this.dataInicial = LocalDateTime.now();
     }
 }
