@@ -23,12 +23,6 @@ public class OrdemServicoControlador {
 	public List<OrdemServico> ListarTodas(){
 		return repositorio.findAll();
 	}
-	@GetMapping("/{id}")
-	public ResponseEntity<OrdemServico> buscarPorId(@PathVariable Long id) {
-		return repositorio.findById(id)
-				.map(ResponseEntity::ok)
-				.orElse(ResponseEntity.notFound().build());
-	}
-	}
-	
+}
+
 
