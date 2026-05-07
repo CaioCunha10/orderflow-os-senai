@@ -149,4 +149,13 @@ public class OrdemServico {
         this.dataFinalizacao = LocalDateTime.now();
         this.status = StatusOS.FINALIZADA;
     }
+
+    public void iniciar() {
+        if (this.status != StatusOS.ABERTA) {
+            throw new IllegalStateException("A ordem de serviço só pode ser iniciada se estiver aberta.");
+        }
+
+        this.dataInicial = LocalDateTime.now();
+        this.status = StatusOS.EM_ANDAMENTO;
+    }
 }

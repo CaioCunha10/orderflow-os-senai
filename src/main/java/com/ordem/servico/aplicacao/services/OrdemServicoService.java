@@ -16,7 +16,7 @@ public class OrdemServicoService {
 		this.ordemServicoRepositorio = ordemServicoRepositorio;
 	}
 	
-	public List<OrdemServico> listarTodas(){
+	public List<OrdemServico> listarTodas() {
 		return ordemServicoRepositorio.findAll();
 	}
 	
@@ -29,4 +29,9 @@ public class OrdemServicoService {
 		return ordemServicoRepositorio.save(ordemServico);
 	}
 
+	public OrdemServico iniciar(Long id) {
+		OrdemServico ordemServico = buscarPorId(id);
+		ordemServico.iniciar();
+		return ordemServicoRepositorio.save(ordemServico);
+	}
 }
