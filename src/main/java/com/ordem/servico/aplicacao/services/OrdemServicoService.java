@@ -28,5 +28,20 @@ public class OrdemServicoService {
 	public OrdemServico salvar(OrdemServico ordemServico) {
 		return ordemServicoRepositorio.save(ordemServico);
 	}
+	public OrdemServico iniciar(Long id) {
+
+	    OrdemServico os = ordemServicoRepositorio.findById(id)
+	            .orElseThrow(() -> new RuntimeException("OS não encontrada"));
+
+	    if (os.getStatus() != StatusOS.ABERTA) {
+	        throw new RuntimeException("A OS precisa estar ABERTA para iniciar");
+	    }
+
+	    os.setStatus(StatusOS.EM_ANDAMENTO);
+	    os.setDataInicio(LocalDateTime.now());
+
+	    return ordemServicoRepositorio.save(os);
+
+	}
 
 }
