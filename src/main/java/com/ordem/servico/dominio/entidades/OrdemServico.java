@@ -141,12 +141,16 @@ public class OrdemServico {
             throw new IllegalStateException("A ordem de serviço só pode ser finalizada se estiver em andamento.");
         }
 
-        if (descricaoTecnica == null || descricaoTecnica.trim().isEmpty()) {
-            throw new IllegalArgumentException("A descrição técnica é obrigatória para finalizar a ordem de serviço.");
-        }
+        validarDescricaoTecnica(descricaoTecnica);
 
         this.descricaoTecnica = descricaoTecnica;
         this.dataFinalizacao = LocalDateTime.now();
         this.status = StatusOS.FINALIZADA;
+    }
+
+    private void validarDescricaoTecnica(String descricaoTecnica) {
+        if (descricaoTecnica == null || descricaoTecnica.trim().isEmpty()) {
+            throw new IllegalArgumentException("A descrição técnica é obrigatória para finalizar a ordem de serviço.");
+        }
     }
 }
