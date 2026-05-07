@@ -115,7 +115,7 @@ public class OrdemServico {
         return solicitante;
     }
 
-    public void setSolicitante(Solicitante solicitante) {
+    public void setSolicicitante(Solicitante solicitante) {
         this.solicitante = solicitante;
     }
 
