@@ -1,55 +1,96 @@
 package com.ordem.servico.dominio.entidades;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ordem_de_servico")
+@Table(name = "Ordem_Servico")
 public class OrdemServico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_os;
 
-    private LocalDate dataAbertura;
-    private LocalDate dataInicial;
-    private LocalDate dataFinalizacao;
+    @Column(name = "dt_abertura", updatable = false)
+    private LocalDateTime dataAbertura = LocalDateTime.now();
+
+    @Column(name = "dt_inicio")
+    private LocalDateTime dataInicial;
+
+    @Column(name = "dt_fim")
+    private LocalDateTime dataFinalizacao;
+
+    @Column(name = "desc_problema", nullable = false, length = 150)
+    private String descricaoProblema;
+
+    @Column(name = "desc_servico", length = 150)
     private String descricaoTecnica;
 
     @Enumerated(EnumType.STRING)
-    private StatusOS status;
+    @Column(name = "status_os")
+    private StatusOS status = StatusOS.ABERTA;
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
+    @Column(nullable = false, length = 15)
+    private String prioridade = "BAIXA";
+
+    @ManyToOne
+    @JoinColumn(name = "id_solicitante", nullable = false)
+    private Solicitante solicitante;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tecnico", nullable = false)
+    private Tecnico tecnico;
+
+    @ManyToOne
+    @JoinColumn(name = "id_dept", nullable = false)
+    private Departamento departamento;
+
+    public OrdemServico() {}
+
+    public Long getId_os() {
+        return id_os;
     }
 
-    public LocalDate getDataAbertura() {
+    public void setId_os(Long id_os) {
+        this.id_os = id_os;
+    }
+
+    public LocalDateTime getDataAbertura() {
         return dataAbertura;
     }
-    public void setDataAbertura(LocalDate dataAbertura) {
+
+    public void setDataAbertura(LocalDateTime dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
-    public LocalDate getDataInicial() {
+    public LocalDateTime getDataInicial() {
         return dataInicial;
     }
-    public void setDataInicial(LocalDate dataInicial) {
+
+    public void setDataInicial(LocalDateTime dataInicial) {
         this.dataInicial = dataInicial;
     }
 
-    public LocalDate getDataFinalizacao() {
+    public LocalDateTime getDataFinalizacao() {
         return dataFinalizacao;
     }
-    public void setDataFinalizacao(LocalDate dataFinalizacao) {
+
+    public void setDataFinalizacao(LocalDateTime dataFinalizacao) {
         this.dataFinalizacao = dataFinalizacao;
+    }
+
+    public String getDescricaoProblema() {
+        return descricaoProblema;
+    }
+
+    public void setDescricaoProblema(String descricaoProblema) {
+        this.descricaoProblema = descricaoProblema;
     }
 
     public String getDescricaoTecnica() {
         return descricaoTecnica;
     }
+
     public void setDescricaoTecnica(String descricaoTecnica) {
         this.descricaoTecnica = descricaoTecnica;
     }
@@ -57,7 +98,40 @@ public class OrdemServico {
     public StatusOS getStatus() {
         return status;
     }
+
     public void setStatus(StatusOS status) {
         this.status = status;
+    }
+
+    public String getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(String prioridade) {
+        this.prioridade = prioridade;
+    }
+
+    public Solicitante getSolicitante() {
+        return solicitante;
+    }
+
+    public void setSolicitante(Solicitante solicitante) {
+        this.solicitante = solicitante;
+    }
+
+    public Tecnico getTecnico() {
+        return tecnico;
+    }
+
+    public void setTecnico(Tecnico tecnico) {
+        this.tecnico = tecnico;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 }
