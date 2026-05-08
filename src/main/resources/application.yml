@@ -1,17 +1,16 @@
 spring:
   application:
     name: ordem-servico
-
   datasource:
     url: jdbc:mysql://localhost:3306/orderflow_os?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
     username: root
-    password:
+    password: "150220"
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
-      ddl-auto: update
+      [cite_start]ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect

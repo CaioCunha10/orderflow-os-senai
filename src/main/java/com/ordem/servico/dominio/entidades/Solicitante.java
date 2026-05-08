@@ -9,7 +9,8 @@ public class Solicitante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_solicitante;
+    private Long id_solicitante;
+    
 
     @Column(nullable = false, length = 60)
     private String nome;
