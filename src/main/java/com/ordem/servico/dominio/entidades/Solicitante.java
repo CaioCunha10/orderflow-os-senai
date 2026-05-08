@@ -9,7 +9,8 @@ public class Solicitante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_solicitante;
+    private Long id_solicitante;
+    
 
     @Column(nullable = false, length = 60)
     private String nome;
@@ -23,14 +24,14 @@ public class Solicitante {
 
     public Solicitante() {
     }
-
-    public Integer getId_solicitante() {
+    public Long getId_solicitante() {
         return id_solicitante;
     }
 
-    public void setId_solicitante(Integer id_solicitante) {
+    public void setId_solicitante(Long id_solicitante) {
         this.id_solicitante = id_solicitante;
     }
+    
 
     public String getNome() {
         return nome;
