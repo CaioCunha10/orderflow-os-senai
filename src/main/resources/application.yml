@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/orderflow_os?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
     username: root
-    password: "150220"
+    password: "123Senai@!"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
