@@ -24,14 +24,14 @@ public class Solicitante {
 
     public Solicitante() {
     }
-
-    public Integer getId_solicitante() {
+    public Long getId_solicitante() {
         return id_solicitante;
     }
 
-    public void setId_solicitante(Integer id_solicitante) {
+    public void setId_solicitante(Long id_solicitante) {
         this.id_solicitante = id_solicitante;
     }
+    
 
     public String getNome() {
         return nome;
