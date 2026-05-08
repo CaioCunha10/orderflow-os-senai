@@ -45,7 +45,8 @@ public class OrdemServico {
     @JoinColumn(name = "id_dept", nullable = false)
     private Departamento departamento;
 
-    public OrdemServico() {}
+    public OrdemServico() {
+    }
 
     public Long getId_os() {
         return id_os;
@@ -133,5 +134,31 @@ public class OrdemServico {
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    public void finalizar(String descricaoTecnica) {
+        if (this.status != StatusOS.EM_ANDAMENTO) {
+            throw new IllegalStateException("A ordem de serviço só pode ser finalizada se estiver em andamento.");
+        }
+
+        validarDescricaoTecnica(descricaoTecnica);
+
+        this.descricaoTecnica = descricaoTecnica;
+        this.dataFinalizacao = LocalDateTime.now();
+        this.status = StatusOS.FINALIZADA;
+    }
+
+    private void validarDescricaoTecnica(String descricaoTecnica) {
+        if (descricaoTecnica == null || descricaoTecnica.trim().isEmpty()) {
+            throw new IllegalArgumentException("A descrição técnica é obrigatória para finalizar a ordem de serviço.");
+        }
+    }
+    public void iniciar() {
+        if (this.status != StatusOS.ABERTA) {
+            throw new IllegalStateException("A OS precisa estar ABERTA para iniciar");
+        }
+
+        this.status = StatusOS.EM_ANDAMENTO;
+        this.dataInicial = LocalDateTime.now();
     }
 }

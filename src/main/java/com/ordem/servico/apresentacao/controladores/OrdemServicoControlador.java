@@ -3,7 +3,9 @@ package com.ordem.servico.apresentacao.controladores;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,15 @@ public class OrdemServicoControlador {
     private OrdemServicoRepositorio repositorio;
 
     @GetMapping
-    public List<OrdemServico> listarOrdens() {
+    public List<OrdemServico> listarTodas() {
         return repositorio.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrdemServico> buscarPorId(@PathVariable Long id) {
+
+        return repositorio.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
