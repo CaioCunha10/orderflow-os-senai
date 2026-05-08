@@ -2,6 +2,7 @@ package com.ordem.servico.apresentacao.controladores;
 
 
 import java.util.List;
+
 import com.ordem.servico.dominio.entidades.OrdemServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,3 +27,11 @@ public class OrdemServicoControlador {
 }
 
 
+		@GetMapping("/{id}")
+	    public ResponseEntity<OrdemServico> buscarPorId(@PathVariable Long id) {
+	        return repositorio.findById(id)
+	                .map(ResponseEntity::ok)
+	                .orElse(ResponseEntity.notFound().build());
+		}
+	}
+	
