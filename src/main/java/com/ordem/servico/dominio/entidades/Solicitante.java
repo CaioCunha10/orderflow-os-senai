@@ -1,7 +1,10 @@
 package com.ordem.servico.dominio.entidades;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "solicitantes")
@@ -18,6 +21,7 @@ public class Solicitante {
     @JoinColumn(name = "id_dept", nullable = false)
     private Departamento departamento;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "solicitante")
     private List<OrdemServico> ordensServico;
 

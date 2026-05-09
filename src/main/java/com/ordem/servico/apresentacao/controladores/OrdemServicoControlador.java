@@ -2,33 +2,61 @@ package com.ordem.servico.apresentacao.controladores;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.ordem.servico.aplicacao.services.OrdemServicoService;
 import com.ordem.servico.dominio.entidades.OrdemServico;
-import com.ordem.servico.infraestrutura.repositorios.OrdemServicoRepositorio;
 
 @RestController
 @RequestMapping("/ordens")
 public class OrdemServicoControlador {
 
-    @Autowired
-    private OrdemServicoRepositorio repositorio;
+    private final OrdemServicoService ordemServicoService;
+
+    public OrdemServicoControlador(OrdemServicoService ordemServicoService) {
+        this.ordemServicoService = ordemServicoService;
+    }
 
     @GetMapping
     public List<OrdemServico> listarTodas() {
-        return repositorio.findAll();
+        return ordemServicoService.listarTodas();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrdemServico> buscarPorId(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(ordemServicoService.buscarPorId(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-        return repositorio.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PostMapping
+    public ResponseEntity<OrdemServico> criar(@RequestBody OrdemServico ordemServico) {
+        return ResponseEntity.ok(ordemServicoService.criar(ordemServico));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrdemServico> atualizar(
+            @PathVariable Long id,
+            @RequestBody OrdemServico ordemServico) {
+
+        try {
+            return ResponseEntity.ok(
+                    ordemServicoService.atualizar(id, ordemServico));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        try {
+            ordemServicoService.deletar(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

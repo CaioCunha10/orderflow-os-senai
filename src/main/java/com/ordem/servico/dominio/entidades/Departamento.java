@@ -1,15 +1,14 @@
 package com.ordem.servico.dominio.entidades;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
-
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import jakarta.persistence.OneToMany;
-
-import java.util.List;
 
 @Entity
 public class Departamento {
@@ -17,10 +16,10 @@ public class Departamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
 
     private String nome;
-    
+
+    @JsonIgnore
     @OneToMany(mappedBy = "departamento")
     private List<OrdemServico> ordensServico;
 
@@ -46,10 +45,12 @@ public class Departamento {
     public void setId(Long id) {
         this.id = id;
     }
+
     public List<OrdemServico> getOrdensServico() {
-    	return ordensServico;
+        return ordensServico;
     }
+
     public void setOrdensServico(List<OrdemServico> ordensServico) {
-    	this.ordensServico = ordensServico;
+        this.ordensServico = ordensServico;
     }
 }
