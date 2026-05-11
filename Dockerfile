@@ -10,6 +10,9 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 
+# Debug: Verificar se os arquivos estão presentes
+RUN ls -R .mvn
+
 # Dá permissão de execução ao mvnw e corrige fins de linha
 RUN tr -d '\r' < mvnw > mvnw.tmp && mv mvnw.tmp mvnw
 RUN chmod +x mvnw
