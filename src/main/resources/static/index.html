@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OS - FIRJAN SENAI</title>
+
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="16" fill="%23001b63"/%3E%3Cpath d="M15 19h34v7H15zm0 11h34v7H15zm0 11h22v7H15z" fill="%23ffffff"/%3E%3C/svg%3E'>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <script src="js/script.js"></script>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="mainSidebar">
+
+      <!-- Botão de retrair/expandir sidebar (item 12) -->
+      <button class="btn-toggle-sidebar" id="btnToggleSidebar" title="Retrair/Expandir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <div>
+        <div class="logo-area">
+          <div class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <rect width="64" height="64" rx="16" fill="#ffffff" fill-opacity="0.08"></rect>
+              <path d="M15 18h34v7H15zM15 29h34v7H15zM15 40h22v7H15z" fill="#ffffff"></path>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h2>FIRJAN SENAI</h2>
+            <span>Ordens de Serviço</span>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="active" href="#" data-page="ordens">Ordens de Serviço</a>
+          <a href="#" data-page="nova-os" class="menu-destaque">Nova OS</a>
+          <a href="#" data-page="executar" class="menu-executar">Executar OS</a>
+          <a href="#" data-page="analytics">Análise e Relatórios</a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>Sistema de Gestão</p>
+        <small>SENAI Maracanã</small>
+      </div>
+    </aside>
+
+    <main class="content" id="mainContent">
+      <header class="topbar">
+        <div>
+          <h1>Ordens de Serviço</h1>
+          <p>Gerencie e acompanhe as ordens de serviço da unidade.</p>
+        </div>
+
+        <div class="clock-box">
+          <span id="clock"></span>
+        </div>
+      </header>
+
+      <section class="cards">
+        <article class="card-info">
+          <div class="icon blue">📄</div>
+          <div>
+            <strong id="s-total">0</strong>
+            <span>Total de OS</span>
+          </div>
+        </article>
+
+        <article class="card-info">
+          <div class="icon yellow">🕒</div>
+          <div>
+            <strong id="s-open">0</strong>
+            <span>Em Aberto</span>
+          </div>
+        </article>
+
+        <article class="card-info">
+          <div class="icon blue">▶️</div>
+          <div>
+            <strong id="s-wip">0</strong>
+            <span>Em Execução</span>
+          </div>
+        </article>
+
+        <article class="card-info">
+          <div class="icon green">✔️</div>
+          <div>
+            <strong id="s-done">0</strong>
+            <span>Concluídas</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-head table-head">
+          <div>
+            <h2>Ordens de Serviço</h2>
+            <p>Lista de OS cadastradas, com busca, filtros e ações rápidas.</p>
+          </div>
+
+          <div class="table-actions">
+            <button class="btn btn-ghost btn-small" id="btnFiltros" type="button">
+              <span class="mini-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/></svg>
+              </span>
+              Filtros
+            </button>
+            <button class="btn btn-ghost btn-small" id="btnExportar" type="button">
+              <span class="mini-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0l-4-4m4 4l4-4M5 17v3h14v-3"/></svg>
+              </span>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <div class="filters-box" id="filtersBox">
+          <div class="filters-grid">
+            <div class="field">
+              <label for="filtroDepartamento">Departamento</label>
+              <select id="filtroDepartamento">
+                <option value="">Todos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="filtroTecnico">Técnico</label>
+              <select id="filtroTecnico">
+                <option value="">Todos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="searchTable">Buscar</label>
+              <input
+                id="searchTable"
+                type="text"
+                placeholder="Buscar por OS, solicitante, técnico ou departamento..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-status="">Todos</button>
+          <button class="tab" data-status="ABERTA">Abertas</button>
+          <button class="tab" data-status="EM_ANDAMENTO">Em Andamento</button>
+          <button class="tab" data-status="CONCLUIDA">Concluídas</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>OS #</th>
+                <th>Solicitante</th>
+                <th>Departamento</th>
+                <th>Abertura</th>
+                <th>Início</th>
+                <th>Fechamento</th>
+                <th>Técnico</th>
+                <th>Status</th>
+                <th>Problema (Solicitante)</th>
+                <th>Serviço Executado (Técnico)</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyOS"></tbody>
+          </table>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          <strong>Nenhuma OS cadastrada</strong>
+          <p>As ordens aparecerão aqui assim que forem criadas.</p>
+        </div>
+
+        <div class="table-footer">
+          <div class="table-footer-left">
+            Mostrando <span id="resultadosMostrados">0</span> de <span id="resultadosTotais">0</span> resultados
+          </div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- =========================================================
+       DRAWER — NOVA OS
+  ========================================================== -->
+  <div class="drawer-overlay" id="drawerNovaOS">
+    <div class="drawer drawer-horizontal">
+      <div class="drawer-header">
+        <div>
+          <h2>Registrar Nova Ordem de Serviço</h2>
+          <p>Abra a OS com os dados principais da solicitação.</p>
+        </div>
+        <button class="btn-close-drawer" id="btnCloseNovaOS" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="form-grid-drawer">
+          <div class="field">
+            <label for="solicitante">Solicitante <span>*</span></label>
+            <select id="solicitante" required>
+              <option value="">Selecione...</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="departamento">Departamento <span>*</span></label>
+            <select id="departamento" required>
+              <option value="">Selecione...</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="tecnico">Técnico Responsável (Opcional)</label>
+            <select id="tecnico">
+              <option value="">Nenhum / Atribuir depois</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="abertura">Data/Hora de Abertura <span>*</span></label>
+            <input id="abertura" type="datetime-local" required />
+          </div>
+
+          <div class="field field-wide">
+            <label for="descricaoProblema">Descrição do Problema <span>*</span></label>
+            <textarea id="descricaoProblema" rows="3" placeholder="Descreva o problema relatado..." required></textarea>
+          </div>
+        </div>
+
+        <!-- Execução opcional — oculta por padrão até clicar no botão verde (item 8) -->
+        <div id="execucaoNovaBlocoWrapper" style="margin-top:0;">
+          <div class="panel-note" style="margin-bottom:14px;">
+            <strong>Execução imediata (opcional):</strong> clique no botão verde abaixo para registrar início/fechamento e criar a OS já executada.
+          </div>
+
+          <!-- Botão verde de confirmação (item 8) -->
+          <div id="btnConfirmarExecNovaWrapper">
+            <button class="btn btn-success" id="btnAtivarExecNova" type="button" style="width:100%;margin-bottom:12px;">
+              ▶ Registrar Execução (opcional)
+            </button>
+          </div>
+
+          <!-- Campos de execução — ocultos até confirmar (item 8) -->
+          <div id="execucaoNovaCampos" style="display:none;">
+            <div class="exec-grid-drawer">
+              <div class="field exec-field">
+                <label>Data/Hora de Início</label>
+                <div class="exec-box exec-green">
+                  <div class="exec-box-top">
+                    <span class="exec-box-icon green">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M8 5l11 7-11 7V5zm2 3.7v6.6L15.2 12 10 8.7z"/>
+                      </svg>
+                    </span>
+                    <button class="exec-btn" id="btnRegistrarInicioNova" type="button">Registrar Início</button>
+                  </div>
+                  <small id="inicioNova">Clique para registrar início</small>
+                </div>
+              </div>
+
+              <div class="field exec-field">
+                <label>Data/Hora de Fechamento</label>
+                <div class="exec-box exec-red">
+                  <div class="exec-box-top">
+                    <span class="exec-box-icon red">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 5h14v14H5zM7 7v10h10V7z"/>
+                      </svg>
+                    </span>
+                    <button class="exec-btn close" id="btnRegistrarFechamentoNova" type="button">Registrar Fechamento</button>
+                  </div>
+                  <small id="fechamentoNova">Clique para registrar fechamento</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descrição de Serviço só aparece quando concluída (item 2) -->
+            <div class="field" id="descricaoServicoNovaWrapper" style="display:none;">
+              <label for="descricaoServicoNova">Descrição do Serviço Executado</label>
+              <textarea
+                id="descricaoServicoNova"
+                rows="3"
+                placeholder="Detalhe o serviço realizado, materiais usados e observações técnicas..."
+              ></textarea>
+            </div>
+
+            <div class="panel-note">
+              Se você preencher a execução, a OS será criada já com início/fechamento registrados.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn btn-ghost" id="btnLimparNova" type="button">Limpar campos</button>
+        <button class="btn btn-primary" id="btnCriarOS" type="button">
+          <span class="btn-icon">+</span>
+          Criar OS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       DRAWER — EXECUTAR OS
+  ========================================================== -->
+  <div class="drawer-overlay" id="drawerExecutar">
+    <div class="drawer drawer-horizontal">
+      <div class="drawer-header">
+        <div>
+          <h2>Execução da OS (Técnico)</h2>
+          <p>Selecione uma OS em aberto e registre a execução.</p>
+        </div>
+        <button class="btn-close-drawer" id="btnCloseExecutar" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-section-title" id="execListaTitulo">
+          <h3>OS Em Aberto</h3>
+          <p>Selecione uma OS para executar</p>
+        </div>
+
+        <div class="os-list" id="osListAberto"></div>
+
+        <div class="drawer-divider"></div>
+
+        <div class="exec-head">
+          <div>
+            <span class="exec-label">OS selecionada</span>
+            <strong id="osSelecionadaExec">—</strong>
+          </div>
+          <div class="status-pill" id="statusSelecionadoExec">Sem seleção</div>
+        </div>
+
+        <!-- Info detalhada da OS selecionada (item 5) -->
+        <div id="osInfoDetalhe" style="display:none;margin-bottom:16px;padding:12px 14px;background:#f0f5ff;border:1px solid #d0dcff;border-radius:14px;font-size:0.9rem;color:#1e293b;line-height:1.6;">
+        </div>
+
+        <!-- Botão verde de ação — obrigatório antes dos campos (item 8) -->
+        <div id="btnAcaoExecWrapper" style="display:none;margin-bottom:16px;">
+          <!-- Mostra "Iniciar OS" para ABERTA, "Finalizar OS" para EM_ANDAMENTO, "Reiniciar OS" para CONCLUIDA -->
+          <button class="btn btn-success" id="btnAcaoPrincipalExec" type="button" style="width:100%;">
+            ▶ Iniciar OS
+          </button>
+        </div>
+
+        <!-- Campos de execução — ocultos até clicar no botão de ação (item 8) -->
+        <div id="execCamposWrapper" style="display:none;">
+          <div class="exec-grid-drawer">
+            <div class="field exec-field">
+              <label>Data/Hora de Início</label>
+              <div class="exec-box exec-green">
+                <div class="exec-box-top">
+                  <span class="exec-box-icon green">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 5l11 7-11 7V5zm2 3.7v6.6L15.2 12 10 8.7z"/>
+                    </svg>
+                  </span>
+                  <button class="exec-btn" id="btnRegistrarInicioExec" type="button">Registrar Início</button>
+                </div>
+                <small id="inicioExec">Clique para registrar início</small>
+              </div>
+            </div>
+
+            <div class="field exec-field">
+              <label>Data/Hora de Fechamento</label>
+              <div class="exec-box exec-red">
+                <div class="exec-box-top">
+                  <span class="exec-box-icon red">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 5h14v14H5zM7 7v10h10V7z"/>
+                    </svg>
+                  </span>
+                  <button class="exec-btn close" id="btnRegistrarFechamentoExec" type="button">Registrar Fechamento</button>
+                </div>
+                <small id="fechamentoExec">Clique para registrar fechamento</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reiniciar OS — bloco azul (item 7) — só aparece quando CONCLUIDA -->
+          <div id="reiniciarOSBloco" style="display:none;margin-bottom:16px;">
+            <div class="field exec-field">
+              <label>Data/Hora de Reinício</label>
+              <div class="exec-box exec-blue">
+                <div class="exec-box-top">
+                  <span class="exec-box-icon blue-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M23 4v6h-6M1 20v-6h6"/>
+                      <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                    </svg>
+                  </span>
+                  <button class="exec-btn exec-btn-blue" id="btnRegistrarReinicioExec" type="button">Registrar Reinício</button>
+                </div>
+                <small id="reinicioExec">Clique para registrar reinício</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descrição do serviço — só visível quando CONCLUIDA (item 2) -->
+          <div class="field" id="descricaoServicoExecWrapper">
+            <label for="descricaoServicoExec">Descrição do Serviço Executado <span>*</span></label>
+            <textarea
+              id="descricaoServicoExec"
+              rows="3"
+              placeholder="Detalhe o serviço realizado, materiais usados e observações técnicas..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="panel-note">
+            O preenchimento da descrição do serviço executado é obrigatório para concluir a OS.
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <!-- Botão finalizar/iniciar — dinâmico por status (item 7) -->
+        <div id="drawerFooterBotoes" style="display:flex;gap:12px;width:100%;justify-content:flex-end;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       DRAWER — ANÁLISE E RELATÓRIOS
+  ========================================================== -->
+  <div class="drawer-overlay" id="drawerAnalytics">
+    <div class="drawer drawer-horizontal drawer-wide">
+      <div class="drawer-header">
+        <div>
+          <h2>Análise e Relatórios</h2>
+          <p>Indicadores de desempenho e estatísticas das ordens de serviço.</p>
+        </div>
+        <button class="btn-close-drawer" id="btnCloseAnalytics" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div class="analytics-card-header">
+              <h3>Distribuição de Status</h3>
+              <span class="analytics-icon">📊</span>
+            </div>
+            <div class="analytics-stats">
+              <div class="stat-row">
+                <span class="stat-label">Em Aberto</span>
+                <div class="stat-bar-container">
+                  <div class="stat-bar stat-bar-yellow" id="barAberto" style="width: 0%"></div>
+                  <span class="stat-value" id="percAberto">0%</span>
+                </div>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Em Execução</span>
+                <div class="stat-bar-container">
+                  <div class="stat-bar stat-bar-blue" id="barExec" style="width: 0%"></div>
+                  <span class="stat-value" id="percExec">0%</span>
+                </div>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Concluídas</span>
+                <div class="stat-bar-container">
+                  <div class="stat-bar stat-bar-green" id="barConcluida" style="width: 0%"></div>
+                  <span class="stat-value" id="percConcluida">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-card-header">
+              <h3>Tempo Médio de Execução</h3>
+              <span class="analytics-icon">⏱️</span>
+            </div>
+            <div class="analytics-big-number">
+              <strong id="tempoMedio">—</strong>
+              <span>minutos</span>
+            </div>
+            <p class="analytics-note">Tempo médio entre início e fechamento das OS concluídas</p>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-card-header">
+              <h3>Taxa de Conclusão</h3>
+              <span class="analytics-icon">✅</span>
+            </div>
+            <div class="analytics-big-number">
+              <strong id="taxaConclusao">—</strong>
+              <span>%</span>
+            </div>
+            <p class="analytics-note">Percentual de OS finalizadas em relação ao total</p>
+          </div>
+
+          <div class="analytics-card analytics-card-wide">
+            <div class="analytics-card-header">
+              <h3>OS por Técnico</h3>
+              <span class="analytics-icon">👥</span>
+            </div>
+            <div class="tecnico-stats" id="tecnicoStats"></div>
+          </div>
+
+          <div class="analytics-card analytics-card-wide">
+            <div class="analytics-card-header">
+              <h3>OS por Departamento</h3>
+              <span class="analytics-icon">🏢</span>
+            </div>
+            <div class="dept-stats" id="deptStats"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       DRAWER — EDITAR OS (item 9)
+  ========================================================== -->
+  <div class="drawer-overlay" id="drawerEditar">
+    <div class="drawer drawer-horizontal">
+      <div class="drawer-header">
+        <div>
+          <h2>Editar Ordem de Serviço</h2>
+          <p>Corrija informações de solicitante, departamento, técnico ou descrição.</p>
+        </div>
+        <button class="btn-close-drawer" id="btnCloseEditar" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <input type="hidden" id="editarOSId" />
+        <div class="form-grid-drawer">
+          <div class="field">
+            <label for="editarSolicitante">Solicitante <span>*</span></label>
+            <input id="editarSolicitante" type="text" placeholder="Nome do solicitante" required />
+          </div>
+
+          <div class="field">
+            <label for="editarDepartamento">Departamento <span>*</span></label>
+            <input id="editarDepartamento" type="text" placeholder="Digite o departamento" required />
+          </div>
+
+          <div class="field">
+            <label for="editarTecnico">Técnico Responsável <span>*</span></label>
+            <input id="editarTecnico" type="text" placeholder="Nome do técnico" required />
+          </div>
+
+          <div class="field field-wide">
+            <label for="editarDescricaoProblema">Descrição do Problema <span>*</span></label>
+            <textarea id="editarDescricaoProblema" rows="3" placeholder="Descreva o problema relatado..." required></textarea>
+          </div>
+
+          <div class="field field-wide" id="editarDescricaoServicoWrapper" style="display:none;">
+            <label for="editarDescricaoServico">Descrição do Serviço Executado</label>
+            <textarea id="editarDescricaoServico" rows="3" placeholder="Detalhe o serviço realizado..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn btn-ghost" id="btnCancelarEditar" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="btnSalvarEditar" type="button">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       DRAWER — VISUALIZAR OS (ver detalhes completos)
+  ========================================================== -->
+  <div class="drawer-overlay" id="drawerVerOS">
+    <div class="drawer drawer-horizontal">
+      <div class="drawer-header">
+        <div>
+          <h2 id="verOSTitulo">Ordem de Serviço</h2>
+          <p id="verOSSubtitulo">Visualização completa da OS</p>
+        </div>
+        <button class="btn-close-drawer" id="btnCloseVerOS" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Cabeçalho da OS com badge de status -->
+        <div class="ver-os-header">
+          <div class="ver-os-badge-wrap">
+            <span id="verOSBadge" class="badge"></span>
+          </div>
+        </div>
+
+        <!-- Grid de informações principais -->
+        <div class="ver-os-grid">
+          <div class="ver-os-field">
+            <span class="ver-os-label">Código da OS</span>
+            <span class="ver-os-value code-os" id="verOSCodigo">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Solicitante</span>
+            <span class="ver-os-value" id="verOSSolicitante">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Departamento</span>
+            <span class="ver-os-value" id="verOSDepartamento">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Técnico Responsável</span>
+            <span class="ver-os-value" id="verOSTecnico">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Data de Abertura</span>
+            <span class="ver-os-value" id="verOSAbertura">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Data de Início</span>
+            <span class="ver-os-value" id="verOSInicio">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Data de Fechamento</span>
+            <span class="ver-os-value" id="verOSFechamento">—</span>
+          </div>
+          <div class="ver-os-field">
+            <span class="ver-os-label">Status</span>
+            <span class="ver-os-value" id="verOSStatusTexto">—</span>
+          </div>
+        </div>
+
+        <!-- Descrição do Problema (solicitante) -->
+        <div class="ver-os-section">
+          <div class="ver-os-section-header">
+            <span class="ver-os-section-icon">📋</span>
+            <h3>Descrição do Problema (Solicitante)</h3>
+          </div>
+          <div class="ver-os-text-box" id="verOSDescricao">—</div>
+        </div>
+
+        <!-- Descrição do Serviço (técnico) — só quando concluída -->
+        <div class="ver-os-section" id="verOSServicoWrapper">
+          <div class="ver-os-section-header">
+            <span class="ver-os-section-icon">🔧</span>
+            <h3>Serviço Executado (Técnico)</h3>
+          </div>
+          <div class="ver-os-text-box ver-os-text-box-green" id="verOSServico">—</div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn btn-ghost" id="btnFecharVerOS" type="button">Fechar</button>
+        <button class="btn btn-primary" id="btnEditarDeVer" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Editar OS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-area" id="toastArea"></div>
+
+  <script src="js/script.js"></script>
+
+</body>
+</html>
