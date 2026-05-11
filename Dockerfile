@@ -2,27 +2,18 @@
 FROM eclipse-temurin:17-jdk-focal AS build
 WORKDIR /app
 
-# Define JAVA_HOME explicitamente para o Temurin
-ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
+# Instala o Maven diretamente no container para evitar problemas com o wrapper
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copia os arquivos do Maven Wrapper e o pom.xml
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-
-# Debug: Verificar se os arquivos estão presentes
-RUN ls -R .mvn
-
-# Dá permissão de execução ao mvnw e corrige fins de linha
-RUN tr -d '\r' < mvnw > mvnw.tmp && mv mvnw.tmp mvnw
-RUN chmod +x mvnw
-
-# Baixa as dependências (camada de cache)
-RUN ./mvnw dependency:go-offline
+# Copia o pom.xml e baixa as dependências (camada de cache)
+COPY pom.xml ./
+RUN mvn dependency:go-offline
 
 # Copia o código fonte e gera o jar
 COPY src ./src
-RUN ./mvnw package -DskipTests
+RUN mvn package -DskipTests
 
 # Estágio de Execução
 FROM eclipse-temurin:17-jre-focal
@@ -31,7 +22,7 @@ WORKDIR /app
 # Copia o jar gerado no estágio anterior
 COPY --from=build /app/target/app.jar app.jar
 
-# Expõe a porta (Render usa $PORT, mas 8080 é o padrão)
+# Define a porta dinâmica (Render injeta $PORT, mas 8080 é o padrão local)
 EXPOSE 8080
 
 # Comando de inicialização
