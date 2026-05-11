@@ -106,7 +106,7 @@ if [ -z "$JAVACMD" ] ; then
       # IBM's JDK on AIX uses strange locations for the executables
       JAVACMD="$JAVA_HOME/jre/sh/java"
     else
-      JAVCMD="$JAVA_HOME/bin/java"
+      JAVACMD="$JAVA_HOME/bin/java"
     fi
   else
     JAVACMD="`which java`"

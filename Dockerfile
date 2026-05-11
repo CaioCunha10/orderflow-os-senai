@@ -2,6 +2,10 @@
 FROM eclipse-temurin:17-jdk-focal AS build
 WORKDIR /app
 
+# Define JAVA_HOME explicitamente para o Temurin
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
 # Copia os arquivos do Maven Wrapper e o pom.xml
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
