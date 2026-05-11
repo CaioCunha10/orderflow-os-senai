@@ -38,7 +38,7 @@ public class OrdemServico {
     private Solicitante solicitante;
 
     @ManyToOne
-    @JoinColumn(name = "id_tecnico", nullable = false)
+    @JoinColumn(name = "id_tecnico", nullable = true)
     private Tecnico tecnico;
 
     @ManyToOne
