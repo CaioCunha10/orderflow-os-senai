@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <script src="js/script.js"></script>
 
   <div class="layout">
 
@@ -216,17 +217,23 @@
         <div class="form-grid-drawer">
           <div class="field">
             <label for="solicitante">Solicitante <span>*</span></label>
-            <input id="solicitante" type="text" placeholder="Nome do solicitante" required />
+            <select id="solicitante" required>
+              <option value="">Selecione...</option>
+            </select>
           </div>
 
           <div class="field">
             <label for="departamento">Departamento <span>*</span></label>
-            <input id="departamento" type="text" placeholder="Digite o departamento" required />
+            <select id="departamento" required>
+              <option value="">Selecione...</option>
+            </select>
           </div>
 
           <div class="field">
-            <label for="tecnico">Técnico Responsável <span>*</span></label>
-            <input id="tecnico" type="text" placeholder="Nome do técnico" required />
+            <label for="tecnico">Técnico Responsável (Opcional)</label>
+            <select id="tecnico">
+              <option value="">Nenhum / Atribuir depois</option>
+            </select>
           </div>
 
           <div class="field">
@@ -682,7 +689,7 @@
 
   <div class="toast-area" id="toastArea"></div>
 
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
 
 </body>
 </html>

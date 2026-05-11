@@ -1486,3 +1486,64 @@ tbody tr:hover {
     gap: 8px;
   }
 }
+
+/* ================================================================
+   ADICIONADO PARA INTEGRAÇÃO
+================================================================ */
+.toast-area {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000;
+}
+
+.toast {
+  padding: 14px 24px;
+  border-radius: 12px;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  animation: slideInRight 0.3s ease;
+}
+
+.toast-success {
+  background: var(--green);
+}
+
+.toast-error {
+  background: var(--red);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.btn-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-action:hover:not(:disabled) {
+  background: rgba(0,0,0,0.05);
+}
+
+.btn-action:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.badge-aberta { background: #e0e7ff; color: #4338ca; }
+.badge-em_andamento { background: #fef3c7; color: #92400e; }
+.badge-finalizada { background: #d1fae5; color: #065f46; }
+.badge-cancelada { background: #fee2e2; color: #991b1b; }
